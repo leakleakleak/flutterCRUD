@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +38,7 @@ class _EditSongPage extends State<EditSongPage> {
     songID = widget.songID;
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -107,13 +106,11 @@ class _EditSongPage extends State<EditSongPage> {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                         DateTime selectedDate = dateTime!;
-                        if (selectedDate != null) {
-                          final user = User(
-                              songName: controllerSongName.text,
-                              albumName: controllerSongAlbum.text,
-                              releaseDate: selectedDate);
-                          editUser(user, songID);
-                        }
+                        final user = User(
+                            songName: controllerSongName.text,
+                            albumName: controllerSongAlbum.text,
+                            releaseDate: selectedDate);
+                        editUser(user, songID);
                         Navigator.pop(context);
                         Fluttertoast.showToast(
                             msg: 'Edited Succesfully',
