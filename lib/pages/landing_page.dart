@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -14,7 +12,7 @@ class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Carly Rae Jepsen Songs')),
+      appBar: AppBar(title: const Text('Carly Rae Jepsen Songs')),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('songs').snapshots(),
         builder: (context, snapshot) {
@@ -22,7 +20,7 @@ class LandingPage extends StatelessWidget {
             return Text('Error: ${snapshot.error}');
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           return ListView(
@@ -33,14 +31,14 @@ class LandingPage extends StatelessWidget {
               Timestamp subtitle = data['releaseDate'];
 
               return ListTile(
-                leading: CircleAvatar(child: Text('#')),
+                leading: const CircleAvatar(child: Text('#')),
                 title: Text(title),
                 subtitle: Text(DateFormat('yMd').format(subtitle.toDate())),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
-                      icon: Icon(Icons.edit),
+                      icon: const Icon(Icons.edit),
                       onPressed: () {
                         showDialog(
                           context: context,
@@ -56,7 +54,7 @@ class LandingPage extends StatelessWidget {
                       },
                     ),
                     IconButton(
-                      icon: Icon(Icons.delete),
+                      icon: const Icon(Icons.delete),
                       onPressed: () {
                         deleteSong(data['id']);
                         Fluttertoast.showToast(
