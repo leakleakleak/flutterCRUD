@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
-import '../model/user.dart';
+import '../model/song.dart';
 
 class AddSongPage extends StatefulWidget {
   const AddSongPage({super.key});
@@ -94,10 +94,10 @@ class _AddSongPage extends State<AddSongPage> {
                   child: ElevatedButton(
                     child: const Text('Create'),
                     onPressed: () {
-                      if (formKey.currentState!.validate()) {
+                      if (formKey.currentState?.validate() == true) {
                         formKey.currentState!.save();
                         DateTime selectedDate = dateTime!;
-                        final user = User(
+                        final user = Song(
                             songName: controllerSongName.text,
                             albumName: controllerSongAlbum.text,
                             releaseDate: selectedDate);
@@ -122,13 +122,13 @@ class _AddSongPage extends State<AddSongPage> {
     );
   }
 
-  Future createUser(User user) async {
+  Future createUser(Song song) async {
     //instantiate new collection 'user'
     final docUser = FirebaseFirestore.instance.collection('songs').doc();
     //get the instantiated collection id and pass the value to user.id
-    user.id = docUser.id;
+    song.id = docUser.id;
     //convert to json
-    final json = user.toJson();
+    final json = song.toJson();
     //submit to firebase
     await docUser.set(json);
   }

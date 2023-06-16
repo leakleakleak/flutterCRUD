@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:todolist_crud/model/user.dart';
+import 'package:todolist_crud/model/song.dart';
 import 'package:todolist_crud/pages/add_song.dart';
 import 'package:todolist_crud/pages/edit_song.dart';
 
@@ -96,9 +96,9 @@ class LandingPage extends StatelessWidget {
   }
 
   //get data from firebase
-  Stream<List<User>> readUsers() => FirebaseFirestore.instance
+  Stream<List<Song>> readUsers() => FirebaseFirestore.instance
       .collection('songs')
       .snapshots()
       .map((snapshot) =>
-          snapshot.docs.map((doc) => User.fromJson(doc.data())).toList());
+          snapshot.docs.map((doc) => Song.fromJson(doc.data())).toList());
 }

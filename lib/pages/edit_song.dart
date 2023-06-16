@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
-import '../model/user.dart';
+import '../model/song.dart';
 
 class EditSongPage extends StatefulWidget {
   final String songID;
@@ -106,11 +106,11 @@ class _EditSongPage extends State<EditSongPage> {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                         DateTime selectedDate = dateTime!;
-                        final user = User(
+                        final user = Song(
                             songName: controllerSongName.text,
                             albumName: controllerSongAlbum.text,
                             releaseDate: selectedDate);
-                        editUser(user, songID);
+                        editSong(user, songID);
                         Navigator.pop(context);
                         Fluttertoast.showToast(
                             msg: 'Edited Succesfully',
@@ -130,14 +130,14 @@ class _EditSongPage extends State<EditSongPage> {
     );
   }
 
-  Future editUser(User user, songID) async {
-    //instantiate new collection 'user'
-    final docUser = FirebaseFirestore.instance.collection('songs').doc(songID);
-    //get the instantiated collection id and pass the value to user.id
-    user.id = docUser.id;
+  Future editSong(Song song, songID) async {
+    //instantiate new collection 'Song'
+    final docSong = FirebaseFirestore.instance.collection('songs').doc(songID);
+    //get the instantiated collection id and pass the value to Song.id
+    song.id = docSong.id;
     //convert to json
-    final json = user.toJson();
+    final json = song.toJson();
     //submit to firebase
-    await docUser.set(json);
+    await docSong.set(json);
   }
 }

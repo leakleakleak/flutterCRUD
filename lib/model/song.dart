@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class User {
+class Song {
   String id;
   final String songName;
   final String albumName;
   final DateTime releaseDate;
 
-  User({
+  Song({
     this.id = '',
     required this.songName,
     required this.albumName,
@@ -20,7 +20,7 @@ class User {
         'releaseDate': releaseDate,
       };
 
-  static User fromJson(Map<String, dynamic> json) => User(
+  static Song fromJson(Map<String, dynamic> json) => Song(
         id: json['id'],
         songName: json['songName'],
         albumName: json['albumName'],
