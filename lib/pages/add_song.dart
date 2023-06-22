@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
+import 'package:todolist_crud/widgets/custom_datepicker.dart';
+import 'package:todolist_crud/widgets/custom_textformfield.dart';
 
 import '../model/song.dart';
 
@@ -35,59 +35,19 @@ class _AddSongPage extends State<AddSongPage> {
             child: Column(
               children: [
                 //-----------------------SONG NAME
-                TextFormField(
+                CustomeTextFormField(
                   controller: controllerSongName,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a text';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _name = value ?? '';
-                  },
-                  decoration: const InputDecoration(
-                    labelText: 'Song Name',
-                    border: OutlineInputBorder(),
-                  ),
+                  textLabel: 'Song Name',
                 ),
                 const SizedBox(height: 24),
                 //-----------------------ALBUM NAME
-                TextFormField(
+                CustomeTextFormField(
                   controller: controllerSongAlbum,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a text';
-                    }
-                    return null;
-                  },
-                  decoration: const InputDecoration(
-                    labelText: 'Album Name',
-                    border: OutlineInputBorder(),
-                  ),
+                  textLabel: 'Album Name',
                 ),
                 //-----------------------RELEASE DATE
                 const SizedBox(height: 24),
-                DateTimeFormField(
-                  mode: DateTimeFieldPickerMode.date,
-                  dateFormat: DateFormat.yMd(),
-                  validator: (value) {
-                    if (value == null) {
-                      return 'Please select a date';
-                    }
-                    return null;
-                  },
-                  decoration: const InputDecoration(
-                    labelText: 'Release Date',
-                    border: OutlineInputBorder(),
-                    suffixIcon: Icon(Icons.event_note),
-                  ),
-                  onDateSelected: (DateTime value) {
-                    setState(() {
-                      dateTime = value;
-                    });
-                  },
-                ),
+                const CustomDatePicker(),
                 const SizedBox(height: 35),
                 SizedBox(
                   height: 35,
@@ -96,12 +56,12 @@ class _AddSongPage extends State<AddSongPage> {
                     onPressed: () {
                       if (formKey.currentState?.validate() == true) {
                         formKey.currentState!.save();
-                        DateTime selectedDate = dateTime!;
-                        final user = Song(
+                        DateTime selectedDate = dateTime ?? DateTime.now();
+                        final song = Song(
                             songName: controllerSongName.text,
                             albumName: controllerSongAlbum.text,
                             releaseDate: selectedDate);
-                        createUser(user);
+                        createUser(song);
                         Navigator.pop(context);
                         Fluttertoast.showToast(
                             msg: 'Added Succesfully!',
@@ -109,6 +69,13 @@ class _AddSongPage extends State<AddSongPage> {
                             gravity: ToastGravity.BOTTOM,
                             webPosition: 'center',
                             backgroundColor: Colors.blue);
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: 'Error!',
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            webPosition: 'center',
+                            backgroundColor: Colors.red);
                       }
                       //converting the null aware data type to a standard data type
                     },

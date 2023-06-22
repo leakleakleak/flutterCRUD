@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
+import 'package:todolist_crud/widgets/custom_datepicker.dart';
 
 import '../model/song.dart';
+import '../widgets/custom_textformfield.dart';
 
 class EditSongPage extends StatefulWidget {
   final String songID;
@@ -51,52 +51,18 @@ class _EditSongPage extends State<EditSongPage> {
             key: formKey,
             child: Column(
               children: [
-                TextFormField(
+                CustomeTextFormField(
                   controller: controllerSongName,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a text';
-                    }
-                    return null;
-                  },
-                  decoration: const InputDecoration(
-                      labelText: 'Song Name', border: OutlineInputBorder()),
+                  textLabel: 'Song Name',
                 ),
                 const SizedBox(height: 24),
-                TextFormField(
+                //-----------------------ALBUM NAME
+                CustomeTextFormField(
                   controller: controllerSongAlbum,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a text';
-                    }
-                    return null;
-                  },
-                  decoration: const InputDecoration(
-                      labelText: 'Album', border: OutlineInputBorder()),
+                  textLabel: 'Album Name',
                 ),
                 const SizedBox(height: 24),
-                DateTimeFormField(
-                  initialDate: dateTime,
-                  initialValue: dateTime,
-                  mode: DateTimeFieldPickerMode.date,
-                  dateFormat: DateFormat.yMd(),
-                  validator: (value) {
-                    if (value == null) {
-                      return 'Please select a date';
-                    }
-                    return null;
-                  },
-                  decoration: const InputDecoration(
-                    labelText: 'Release Date',
-                    border: OutlineInputBorder(),
-                    suffixIcon: Icon(Icons.event_note),
-                  ),
-                  onDateSelected: (DateTime value) {
-                    setState(() {
-                      dateTime = value;
-                    });
-                  },
-                ),
+                CustomDatePicker(hasInitialDate: dateTime),
                 const SizedBox(height: 35),
                 SizedBox(
                   height: 35,

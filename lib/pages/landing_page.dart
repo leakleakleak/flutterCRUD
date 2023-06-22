@@ -87,12 +87,12 @@ class LandingPage extends StatelessWidget {
   }
 
   deleteSong(songID) async {
-    //instantiate new collection 'user'
-    final docUser = FirebaseFirestore.instance.collection('songs').doc(songID);
-    //get the instantiated collection id and pass the value to user.id
+    //instantiate new collection 'song'
+    final docSong = FirebaseFirestore.instance.collection('songs').doc(songID);
+    //get the instantiated collection id and pass the value to song.id
 
     //submit to firebase
-    await docUser.delete();
+    await docSong.delete();
   }
 
   //get data from firebase
